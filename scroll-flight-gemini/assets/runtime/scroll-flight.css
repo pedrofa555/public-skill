@@ -1,0 +1,94 @@
+.scroll-flight {
+  --scroll-flight-screens: 4;
+  position: relative;
+  min-height: calc(var(--scroll-flight-screens) * 100svh);
+  background: #080808;
+  color: #fff;
+}
+
+.scroll-flight__sticky {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: #080808;
+}
+
+.scroll-flight__canvas,
+.scroll-flight__fallback,
+.scroll-flight__fallback img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.scroll-flight__canvas {
+  z-index: 1;
+  display: block;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.scroll-flight__fallback {
+  z-index: 0;
+  overflow: hidden;
+}
+
+.scroll-flight__fallback img {
+  object-fit: cover;
+  transform: translate3d(0, var(--scroll-flight-static-y, 2%), 0)
+    scale(var(--scroll-flight-static-scale, 1));
+  transition: opacity 160ms linear;
+  will-change: transform, opacity;
+}
+
+.scroll-flight.is-ready .scroll-flight__canvas {
+  opacity: 1;
+}
+
+.scroll-flight.is-ready[data-scroll-flight-mode="video"]
+  .scroll-flight__fallback {
+  visibility: hidden;
+}
+
+.scroll-flight__content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  align-content: end;
+  width: min(100% - 2rem, 72rem);
+  height: 100%;
+  margin-inline: auto;
+  padding-block: 3rem;
+  pointer-events: none;
+}
+
+.scroll-flight__content :is(a, button, input, select, textarea) {
+  pointer-events: auto;
+}
+
+.scroll-flight__noscript {
+  position: absolute;
+  z-index: 3;
+  inset-inline: 1rem;
+  bottom: 1rem;
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-flight {
+    min-height: 100svh;
+  }
+
+  .scroll-flight__fallback img {
+    transform: none;
+    transition: none;
+  }
+
+  .scroll-flight__canvas {
+    display: none;
+  }
+}

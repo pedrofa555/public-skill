@@ -1,0 +1,42 @@
+<section
+  class="scroll-flight"
+  data-scroll-flight-root
+  style="--scroll-flight-screens: 4"
+  aria-label="Experiência visual controlada pela rolagem"
+>
+  <div class="scroll-flight__sticky">
+    <canvas
+      class="scroll-flight__canvas"
+      data-scroll-flight-canvas
+      role="img"
+      aria-label="Jornada visual cinematográfica"
+    ></canvas>
+
+    <div class="scroll-flight__fallback" data-scroll-flight-fallback>
+      <img
+        data-scroll-flight-fallback-image
+        src="../../scene-01/still.png"
+        alt=""
+        decoding="async"
+      >
+    </div>
+
+    <div class="scroll-flight__content" data-scroll-flight-content>
+      <!-- Insira aqui o conteúdo textual e os CTAs da seção. -->
+    </div>
+  </div>
+
+  <noscript>
+    <p class="scroll-flight__noscript">
+      Ative o JavaScript para acompanhar a animação completa.
+    </p>
+  </noscript>
+</section>
+
+<script src="./scroll-flight.js"></script>
+<script>
+  window.ScrollFlight.mount(
+    document.querySelector("[data-scroll-flight-root]"),
+    "./config.json"
+  );
+</script>

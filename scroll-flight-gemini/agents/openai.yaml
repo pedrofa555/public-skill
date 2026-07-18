@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scroll Flight Gemini"
+  short_description: "Cria experiências cinematográficas guiadas por scroll"
+  default_prompt: "Use $scroll-flight-gemini para criar uma seção cinematic scroll usando o app Gemini."
