@@ -104,6 +104,17 @@ class SkillScaffoldContract(unittest.TestCase):
         self.assertIn("redact", source)
         self.assertNotIn("print(self.api_key", source)
 
+    def test_api_is_first_and_invocation_implies_authorization(self):
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8").lower()
+        reference = (ROOT / "references" / "api-adapter.md").read_text(
+            encoding="utf-8"
+        ).lower()
+        combined = skill + "\n" + reference
+        self.assertIn("api-first", combined)
+        self.assertIn("autoriza\u00e7\u00e3o impl\u00edcita", combined)
+        self.assertNotIn("perguntar se o usu\u00e1rio autoriza", combined)
+        self.assertNotIn("autorizar explicitamente a api", combined)
+
 
 if __name__ == "__main__":
     unittest.main()

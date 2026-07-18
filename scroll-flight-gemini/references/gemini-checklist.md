@@ -1,8 +1,8 @@
 # Checklist manual no app Gemini
 
-## Rota API autorizada
+## Rota API-first
 
-Se o usuário autorizar explicitamente a API e `GEMINI_API_KEY` estiver configurada, ler [api-adapter.md](api-adapter.md), executar o `--dry-run` e gerar stills e clipes em fases separadas. Nunca registrar a chave.
+Se `GEMINI_API_KEY` estiver configurada, a invocação da skill implica autorização para usar a API. Ler [api-adapter.md](api-adapter.md), executar o `--dry-run` e gerar stills e clipes em fases separadas. Nunca registrar a chave. Sem chave, seguir o fluxo manual.
 
 ## Antes de gerar
 

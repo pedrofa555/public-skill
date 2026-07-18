@@ -1,6 +1,6 @@
-# Adaptador opcional do Google AI Studio
+# Adaptador API-first do Google AI Studio
 
-Use esta rota somente quando o usuário autorizar explicitamente a API e o processo detectar `GEMINI_API_KEY` ou `GOOGLE_API_KEY`. A assinatura Google AI Pro e a API têm quotas separadas.
+Use esta rota primeiro quando o processo detectar `GEMINI_API_KEY` ou `GOOGLE_API_KEY`; a invocação da skill implica autorização para usar a chave local. A assinatura Google AI Pro e a API têm quotas separadas. Se nenhuma chave estiver presente, usar o fluxo manual.
 
 O adaptador usa REST sem dependência externa. Ele gera imagens com Gemini Image e clipes assíncronos com Veo, anexando os stills das cenas anterior e seguinte como `firstFrame`/`lastFrame`. Isso melhora a costura, mas não garante identidade perfeita.
 

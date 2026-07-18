@@ -1,19 +1,19 @@
 ---
 name: scroll-flight-gemini
-description: Use when creating a cinematic scroll, scroll flight, scroll world, or hero section with scroll-driven video for a landing page, using manual Gemini generation or an explicitly authorized Google AI Studio API. Do not use for ordinary entrance animations, carousels, or simple parallax without a connected scene journey.
+description: Use when creating a cinematic scroll, scroll flight, scroll world, or hero section with scroll-driven video for a landing page, using the Google AI Studio API first when a local key exists and manual Gemini generation as fallback. Do not use for ordinary entrance animations, carousels, or simple parallax without a connected scene journey.
 ---
 
 # Scroll Flight Gemini
 
-## Rota API autorizada
+## Rota API-first
 
-Por padrão, usar o app Gemini manualmente. Se o usuário autorizar explicitamente a API e `check_prereqs.py` indicar uma chave local, ler [api-adapter.md](references/api-adapter.md), preparar o JSON de prompts e usar `scripts/gemini_api.py`. A API é separada do Google AI Pro; nunca imprimir ou persistir a chave.
+Por padrão, buscar e usar a API primeiro. A invocação da skill implica autorização para usar uma chave local detectada por `check_prereqs.py`; não pedir confirmação adicional. Ler [api-adapter.md](references/api-adapter.md), preparar o JSON de prompts e usar `scripts/gemini_api.py`. Se não houver chave, seguir o fallback manual. Nunca imprimir ou persistir a chave.
 
 ## Princípio central
 
-Criar uma viagem visual contínua e controlada pelo scroll. Usar o app Gemini como etapa manual por padrão; com autorização explícita e chave local, usar o adaptador REST para geração e manter a preparação, validação, conversão e integração local dos assets.
+Criar uma viagem visual contínua e controlada pelo scroll. Usar o adaptador REST como etapa de geração por padrão quando houver chave local; usar o app Gemini manualmente somente quando a chave não estiver disponível. Manter a preparação, validação, conversão e integração local dos assets.
 
-Não tratar Google AI Pro como acesso ao Google AI Studio. Não automatizar a interface do app Gemini, não imprimir credenciais e não prometer frame-lock entre clipes. A rota API é opcional e separada do app.
+Não tratar Google AI Pro como acesso ao Google AI Studio. Não automatizar a interface do app Gemini, não imprimir credenciais e não prometer frame-lock entre clipes. A rota API é prioritária quando a chave local existe e continua separada do app.
 
 ## Fluxo obrigatório
 
@@ -27,7 +27,7 @@ Executar:
 py -3 <skill-dir>\scripts\check_prereqs.py --json
 ```
 
-Pedir confirmação humana de acesso ao app Gemini. Se o relatório indicar uma chave opcional, perguntar se o usuário autoriza a rota Google AI Studio; com autorização explícita, ler [api-adapter.md](references/api-adapter.md) e não imprimir a chave nem presumir que a assinatura do app cobre API.
+Se o relatório indicar uma chave opcional, tratar a invocação da skill como autorização implícita, ler [api-adapter.md](references/api-adapter.md) e não imprimir a chave nem presumir que a assinatura do app cobre API. Se a chave não estiver presente, informar que o fluxo manual será usado.
 
 ### 2. Entrevistar uma pergunta por vez
 
@@ -63,6 +63,8 @@ Mostrar todos os prompts antes de pausar. Incluir ao final de cada prompt o camp
 ./scroll-assets/scene-01/still.png
 ```
 
+Se houver chave local, salvar os prompts no JSON descrito em [api-adapter.md](references/api-adapter.md), executar `gemini_api.py --dry-run` e então `--phase stills`. Nesse caminho, não pausar para checkpoint manual de download.
+
 **Checkpoint manual 1:** pedir literalmente: **“Confirme que salvou os stills nos caminhos indicados.”** Parar e aguardar a confirmação.
 
 ### 5. Validar os stills
@@ -84,6 +86,8 @@ Avisar claramente:
 > O app Gemini não garante frame-lock entre clipes. A costura pode ficar menos precisa que uma cadeia gerada por ferramentas com boundary frames. Se houver corte perceptível, gere um still intermediário de transição e refaça o clipe afetado.
 
 Usar o template de still intermediário somente quando o usuário relatar uma costura visível.
+
+Se a geração estiver no caminho API-first, executar `gemini_api.py --phase clips`; os stills anterior e seguinte serão enviados como referências de boundary frame.
 
 **Checkpoint manual 2:** pedir literalmente: **“Confirme que salvou os clipes nos caminhos indicados.”** Parar e aguardar a confirmação.
 
